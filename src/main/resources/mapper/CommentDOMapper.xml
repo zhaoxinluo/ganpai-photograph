@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ganpai.mapper.CommentDOMapper">
+  <resultMap id="BaseResultMap" type="com.ganpai.model.CommentDO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="opus_id" jdbcType="BIGINT" property="opusId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="comment_user_id" jdbcType="BIGINT" property="commentUserId" />
+    <result column="comment_login_name" jdbcType="VARCHAR" property="commentLoginName" />
+    <result column="comment_head_sculpture_address" jdbcType="VARCHAR" property="commentHeadSculptureAddress" />
+    <result column="comment" jdbcType="VARCHAR" property="comment" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="is_del" jdbcType="TINYINT" property="isDel" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, opus_id, user_id, comment_user_id, comment_login_name, comment_head_sculpture_address, 
+    create_time, is_del
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from comment
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <update id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    update comment
+    set is_del = 1
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <insert id="insert" parameterType="com.ganpai.model.CommentDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into comment (opus_id, user_id, comment_user_id, 
+      comment_login_name, comment_head_sculpture_address, comment,
+      create_time, is_del)
+    values (#{opusId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{commentUserId,jdbcType=BIGINT}, 
+      #{commentLoginName,jdbcType=VARCHAR}, #{commentHeadSculptureAddress,jdbcType=VARCHAR},#{comment,jdbcType=VARCHAR},
+      #{createTime,jdbcType=TIMESTAMP}, #{isDel,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ganpai.model.CommentDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into comment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="opusId != null">
+        opus_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="commentUserId != null">
+        comment_user_id,
+      </if>
+      <if test="commentLoginName != null">
+        comment_login_name,
+      </if>
+      <if test="commentHeadSculptureAddress != null">
+        comment_head_sculpture_address,
+      </if>
+      <if test="comment != null">
+        comment,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="isDel != null">
+        is_del,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="opusId != null">
+        #{opusId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="commentUserId != null">
+        #{commentUserId,jdbcType=BIGINT},
+      </if>
+      <if test="commentLoginName != null">
+        #{commentLoginName,jdbcType=VARCHAR},
+      </if>
+      <if test="commentHeadSculptureAddress != null">
+        #{commentHeadSculptureAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="comment != null">
+        #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDel != null">
+        #{isDel,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ganpai.model.CommentDO">
+    update comment
+    <set>
+      <if test="opusId != null">
+        opus_id = #{opusId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="commentUserId != null">
+        comment_user_id = #{commentUserId,jdbcType=BIGINT},
+      </if>
+      <if test="commentLoginName != null">
+        comment_login_name = #{commentLoginName,jdbcType=VARCHAR},
+      </if>
+      <if test="commentHeadSculptureAddress != null">
+        comment_head_sculpture_address = #{commentHeadSculptureAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="comment != null">
+        comment = #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDel != null">
+        is_del = #{isDel,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ganpai.model.CommentDO">
+    update comment
+    set opus_id = #{opusId,jdbcType=BIGINT},
+      user_id = #{userId,jdbcType=BIGINT},
+      comment_user_id = #{commentUserId,jdbcType=BIGINT},
+      comment_login_name = #{commentLoginName,jdbcType=VARCHAR},
+      comment_head_sculpture_address = #{commentHeadSculptureAddress,jdbcType=VARCHAR},
+      comment = #{comment,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      is_del = #{isDel,jdbcType=TINYINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="list" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from comment
+    where 1=1
+    <include refid="List_Where" />
+    ORDER BY id DESC
+    <if test="pageSize >0">
+    limit #{startIndex},#{pageSize}
+    </if>
+  </select>
+  <select id="count" parameterType="com.ganpai.model.CommentDO"
+          resultType="long">
+    select
+    count(1)
+    from comment
+    where 1=1
+    <include refid="List_Where" />
+  </select>
+
+  <sql id="List_Where">
+    <if test="record.id != null">
+      and id = #{record.id,jdbcType=BIGINT}
+    </if>
+    <if test="record.opusId != null">
+      and opus_id = #{record.opusId,jdbcType=BIGINT}
+    </if>
+    <if test="record.userId != null">
+      and user_id = #{record.userId,jdbcType=BIGINT}
+    </if>
+    <if test="record.commentUserId != null">
+      and comment_user_id = #{record.commentUserId,jdbcType=BIGINT}
+    </if>
+    <if test="record.commentLoginName != null">
+      and comment_login_name = #{record.commentLoginName,jdbcType=VARCHAR}
+    </if>
+    <if test="record.commentHeadSculptureAddress != null">
+      and comment_head_sculpture_address = #{record.commentHeadSculptureAddress,jdbcType=VARCHAR}
+    </if>
+    <if test="record.comment != null">
+      and comment = #{record.comment,jdbcType=VARCHAR}
+    </if>
+    <if test="record.createTime != null">
+      and create_time = #{record.createTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="record.isDel != null">
+      and is_del = #{record.isDel,jdbcType=TINYINT}
+    </if>
+  </sql>
+</mapper>

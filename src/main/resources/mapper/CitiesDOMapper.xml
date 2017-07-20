@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ganpai.mapper.CitiesDOMapper">
+  <resultMap id="BaseResultMap" type="com.ganpai.model.CitiesDO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="city_id" jdbcType="BIGINT" property="cityId" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="province_id" jdbcType="BIGINT" property="provinceId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, city_id, city, province_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cities
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from cities
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ganpai.model.CitiesDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cities (city_id, city, province_id
+      )
+    values (#{cityId,jdbcType=BIGINT}, #{city,jdbcType=VARCHAR}, #{provinceId,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ganpai.model.CitiesDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cities
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cityId != null">
+        city_id,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="provinceId != null">
+        province_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cityId != null">
+        #{cityId,jdbcType=BIGINT},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null">
+        #{provinceId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ganpai.model.CitiesDO">
+    update cities
+    <set>
+      <if test="cityId != null">
+        city_id = #{cityId,jdbcType=BIGINT},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null">
+        province_id = #{provinceId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ganpai.model.CitiesDO">
+    update cities
+    set city_id = #{cityId,jdbcType=BIGINT},
+      city = #{city,jdbcType=VARCHAR},
+      province_id = #{provinceId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="list" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cities
+    where 1=1
+    <include refid="List_Where" />
+    ORDER BY id DESC
+    <if test="pageSize >0">
+    limit #{startIndex},#{pageSize}
+    </if>
+  </select>
+  <select id="count" parameterType="com.ganpai.model.CitiesDO"
+          resultType="long">
+    select
+    count(1)
+    from cities
+    where 1=1
+    <include refid="List_Where" />
+  </select>
+
+  <sql id="List_Where">
+    <if test="record.id != null">
+      and id = #{record.id,jdbcType=BIGINT}
+    </if>
+    <if test="record.cityId != null">
+      and city_id = #{record.cityId,jdbcType=BIGINT}
+    </if>
+    <if test="record.city != null">
+      and city = #{record.city,jdbcType=VARCHAR}
+    </if>
+    <if test="record.provinceId != null">
+      and province_id = #{record.provinceId,jdbcType=BIGINT}
+    </if>
+  </sql>
+
+</mapper>

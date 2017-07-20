@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ganpai.mapper.OpusDOMapper">
+  <resultMap id="BaseResultMap" type="com.ganpai.model.OpusDO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="login_name" jdbcType="VARCHAR" property="loginName" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="head_sculpture_address" jdbcType="VARCHAR" property="headSculptureAddress" />
+    <result column="opus_name" jdbcType="VARCHAR" property="opusName" />
+    <result column="category_id" jdbcType="BIGINT" property="categoryId" />
+    <result column="opus_desc" jdbcType="VARCHAR" property="opusDesc" />
+    <result column="opus_address" jdbcType="VARCHAR" property="opusAddress" />
+    <result column="public_time" jdbcType="TIMESTAMP" property="publicTime" />
+    <result column="is_del" jdbcType="TINYINT" property="isDel" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, login_name, user_name, head_sculpture_address, opus_name, category_id, 
+    opus_desc, opus_address, public_time, is_del
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from opus
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <update id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    update opus
+    set is_del = 1
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <insert id="insert" parameterType="com.ganpai.model.OpusDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into opus (user_id, login_name, user_name, 
+      head_sculpture_address, opus_name, category_id, 
+      opus_desc, opus_address, public_time, 
+      is_del)
+    values (#{userId,jdbcType=BIGINT}, #{loginName,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{headSculptureAddress,jdbcType=VARCHAR}, #{opusName,jdbcType=VARCHAR}, #{categoryId,jdbcType=BIGINT}, 
+      #{opusDesc,jdbcType=VARCHAR}, #{opusAddress,jdbcType=VARCHAR}, #{publicTime,jdbcType=TIMESTAMP}, 
+      #{isDel,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ganpai.model.OpusDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into opus
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="loginName != null">
+        login_name,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="headSculptureAddress != null">
+        head_sculpture_address,
+      </if>
+      <if test="opusName != null">
+        opus_name,
+      </if>
+      <if test="categoryId != null">
+        category_id,
+      </if>
+      <if test="opusDesc != null">
+        opus_desc,
+      </if>
+      <if test="opusAddress != null">
+        opus_address,
+      </if>
+      <if test="publicTime != null">
+        public_time,
+      </if>
+      <if test="isDel != null">
+        is_del,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="loginName != null">
+        #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="headSculptureAddress != null">
+        #{headSculptureAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="opusName != null">
+        #{opusName,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null">
+        #{categoryId,jdbcType=BIGINT},
+      </if>
+      <if test="opusDesc != null">
+        #{opusDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="opusAddress != null">
+        #{opusAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="publicTime != null">
+        #{publicTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDel != null">
+        #{isDel,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ganpai.model.OpusDO">
+    update opus
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="loginName != null">
+        login_name = #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="headSculptureAddress != null">
+        head_sculpture_address = #{headSculptureAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="opusName != null">
+        opus_name = #{opusName,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null">
+        category_id = #{categoryId,jdbcType=BIGINT},
+      </if>
+      <if test="opusDesc != null">
+        opus_desc = #{opusDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="opusAddress != null">
+        opus_address = #{opusAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="publicTime != null">
+        public_time = #{publicTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDel != null">
+        is_del = #{isDel,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ganpai.model.OpusDO">
+    update opus
+    set user_id = #{userId,jdbcType=BIGINT},
+      login_name = #{loginName,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      head_sculpture_address = #{headSculptureAddress,jdbcType=VARCHAR},
+      opus_name = #{opusName,jdbcType=VARCHAR},
+      category_id = #{categoryId,jdbcType=BIGINT},
+      opus_desc = #{opusDesc,jdbcType=VARCHAR},
+      opus_address = #{opusAddress,jdbcType=VARCHAR},
+      public_time = #{publicTime,jdbcType=TIMESTAMP},
+      is_del = #{isDel,jdbcType=TINYINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="list" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from opus
+    where 1=1
+    <include refid="List_Where" />
+    ORDER BY id DESC
+    limit #{startIndex},#{pageSize}
+  </select>
+  <select id="count" parameterType="com.ganpai.model.OpusDO"
+          resultType="long">
+    select
+    count(1)
+    from opus
+    where 1=1
+    <include refid="List_Where" />
+  </select>
+
+  <sql id="List_Where">
+    <if test="record.id != null">
+      and id = #{record.id,jdbcType=BIGINT}
+    </if>
+    <if test="record.userId != null">
+      and user_id = #{record.userId,jdbcType=BIGINT}
+    </if>
+    <if test="record.loginName != null">
+      and login_name = #{record.loginName,jdbcType=VARCHAR}
+    </if>
+    <if test="record.userName != null">
+      and user_name = #{record.userName,jdbcType=VARCHAR}
+    </if>
+    <if test="record.headSculptureAddress != null">
+      and head_sculpture_address = #{record.headSculptureAddress,jdbcType=VARCHAR}
+    </if>
+    <if test="record.opusName != null">
+      and opus_name like CONCAT('%','${record.opusName}','%' )
+    </if>
+    <if test="record.categoryId != null">
+      and category_id = #{record.categoryId,jdbcType=BIGINT}
+    </if>
+    <if test="record.opusDesc != null">
+      and opus_desc = #{record.opusDesc,jdbcType=VARCHAR}
+    </if>
+    <if test="record.opusAddress != null">
+      and opus_address = #{record.opusAddress,jdbcType=VARCHAR}
+    </if>
+    <if test="record.publicTime != null">
+      and public_time = #{record.publicTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="record.isDel != null">
+      and is_del = #{record.isDel,jdbcType=TINYINT}
+    </if>
+  </sql>
+
+</mapper>
