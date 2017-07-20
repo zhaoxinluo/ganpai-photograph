@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ganpai.mapper.TaskDOMapper">
+  <resultMap id="BaseResultMap" type="com.ganpai.model.TaskDO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="demand_id" jdbcType="BIGINT" property="demandId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="login_name" jdbcType="VARCHAR" property="loginName" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="is_del" jdbcType="TINYINT" property="isDel" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, demand_id, user_id, login_name, mobile, create_time, is_del
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from task
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <update id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    update task
+    set is_del = 1
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <insert id="insert" parameterType="com.ganpai.model.TaskDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into task (demand_id, user_id, login_name, 
+      mobile, create_time, is_del
+      )
+    values (#{demandId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{loginName,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{isDel,jdbcType=TINYINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ganpai.model.TaskDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into task
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="demandId != null">
+        demand_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="loginName != null">
+        login_name,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="isDel != null">
+        is_del,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="demandId != null">
+        #{demandId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="loginName != null">
+        #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDel != null">
+        #{isDel,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ganpai.model.TaskDO">
+    update task
+    <set>
+      <if test="demandId != null">
+        demand_id = #{demandId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="loginName != null">
+        login_name = #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDel != null">
+        is_del = #{isDel,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ganpai.model.TaskDO">
+    update task
+    set demand_id = #{demandId,jdbcType=BIGINT},
+      user_id = #{userId,jdbcType=BIGINT},
+      login_name = #{loginName,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      is_del = #{isDel,jdbcType=TINYINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="list" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from task
+    where 1=1
+    <include refid="List_Where" />
+    ORDER BY id DESC
+    <if test="pageSize >0">
+    limit #{startIndex},#{pageSize}
+    </if>
+  </select>
+  <select id="count" parameterType="com.ganpai.model.TaskDO"
+          resultType="long">
+    select
+    count(1)
+    from task
+    where 1=1
+    <include refid="List_Where" />
+  </select>
+
+  <sql id="List_Where">
+    <if test="record.id != null">
+      and id = #{record.id,jdbcType=BIGINT}
+    </if>
+    <if test="record.demandId != null">
+      and demand_id = #{record.demandId,jdbcType=BIGINT}
+    </if>
+    <if test="record.userId != null">
+      and user_id = #{record.userId,jdbcType=BIGINT}
+    </if>
+    <if test="record.loginName != null">
+      and login_name = #{record.loginName,jdbcType=VARCHAR}
+    </if>
+    <if test="record.mobile != null">
+      and mobile = #{record.mobile,jdbcType=VARCHAR}
+    </if>
+    <if test="record.createTime != null">
+      and create_time = #{record.createTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="record.isDel != null">
+      and is_del = #{record.isDel,jdbcType=TINYINT}
+    </if>
+  </sql>
+</mapper>

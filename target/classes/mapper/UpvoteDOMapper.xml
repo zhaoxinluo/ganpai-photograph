@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ganpai.mapper.UpvoteDOMapper">
+  <resultMap id="BaseResultMap" type="com.ganpai.model.UpvoteDO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="opus_id" jdbcType="BIGINT" property="opusId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="login_name" jdbcType="VARCHAR" property="loginName" />
+    <result column="head_sculpture_address" jdbcType="VARCHAR" property="headSculptureAddress" />
+    <result column="upvote_user_id" jdbcType="BIGINT" property="upvoteUserId" />
+    <result column="upvote_login_name" jdbcType="VARCHAR" property="upvoteLoginName" />
+    <result column="upvote_head_sculpture_address" jdbcType="VARCHAR" property="upvoteHeadSculptureAddress" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="is_del" jdbcType="TINYINT" property="isDel" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, opus_id, user_id, login_name, head_sculpture_address,upvote_user_id, upvote_login_name, upvote_head_sculpture_address,
+    create_time, is_del
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from upvote
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <update id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    update upvote
+    set is_del = 1
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <insert id="insert" parameterType="com.ganpai.model.UpvoteDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into upvote (opus_id, user_id, login_name, head_sculpture_address,
+      upvote_user_id, upvote_login_name, upvote_head_sculpture_address, 
+      create_time, is_del)
+    values (#{opusId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{loginName,jdbcType=VARCHAR},  #{headSculptureAddress,jdbcType=VARCHAR},
+      #{upvoteUserId,jdbcType=BIGINT}, #{upvoteLoginName,jdbcType=VARCHAR}, #{upvoteHeadSculptureAddress,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{isDel,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ganpai.model.UpvoteDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into upvote
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="opusId != null">
+        opus_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="loginName != null">
+        login_name,
+      </if>
+      <if test="headSculptureAddress != null">
+        head_sculpture_address,
+      </if>
+      <if test="upvoteUserId != null">
+        upvote_user_id,
+      </if>
+      <if test="upvoteLoginName != null">
+        upvote_login_name,
+      </if>
+      <if test="upvoteHeadSculptureAddress != null">
+        upvote_head_sculpture_address,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="isDel != null">
+        is_del,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="opusId != null">
+        #{opusId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="loginName != null">
+        #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="headSculptureAddress != null">
+        #{headSculptureAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="upvoteUserId != null">
+        #{upvoteUserId,jdbcType=BIGINT},
+      </if>
+      <if test="upvoteLoginName != null">
+        #{upvoteLoginName,jdbcType=VARCHAR},
+      </if>
+      <if test="upvoteHeadSculptureAddress != null">
+        #{upvoteHeadSculptureAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDel != null">
+        #{isDel,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ganpai.model.UpvoteDO">
+    update upvote
+    <set>
+      <if test="opusId != null">
+        opus_id = #{opusId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="loginName != null">
+        login_name = #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="headSculptureAddress != null">
+        head_sculpture_address = #{headSculptureAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="upvoteUserId != null">
+        upvote_user_id = #{upvoteUserId,jdbcType=BIGINT},
+      </if>
+      <if test="upvoteLoginName != null">
+        upvote_login_name = #{upvoteLoginName,jdbcType=VARCHAR},
+      </if>
+      <if test="upvoteHeadSculptureAddress != null">
+        upvote_head_sculpture_address = #{upvoteHeadSculptureAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDel != null">
+        is_del = #{isDel,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ganpai.model.UpvoteDO">
+    update upvote
+    set opus_id = #{opusId,jdbcType=BIGINT},
+      user_id = #{userId,jdbcType=BIGINT},
+      login_name = #{loginName,jdbcType=VARCHAR},
+      head_sculpture_address = #{headSculptureAddress,jdbcType=VARCHAR},
+      upvote_user_id = #{upvoteUserId,jdbcType=BIGINT},
+      upvote_login_name = #{upvoteLoginName,jdbcType=VARCHAR},
+      upvote_head_sculpture_address = #{upvoteHeadSculptureAddress,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      is_del = #{isDel,jdbcType=TINYINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="list" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from upvote
+    where 1=1
+    <include refid="List_Where" />
+    ORDER BY id DESC
+    <if test="pageSize >0">
+      limit #{startIndex},#{pageSize}
+    </if>
+
+  </select>
+  <select id="count" parameterType="com.ganpai.model.UpvoteDO"
+          resultType="long">
+    select
+    count(1)
+    from upvote
+    where 1=1
+    <include refid="List_Where" />
+  </select>
+
+  <sql id="List_Where">
+    <if test="record.id != null">
+      and id = #{record.id,jdbcType=BIGINT}
+    </if>
+    <if test="record.opusId != null">
+      and opus_id = #{record.opusId,jdbcType=BIGINT}
+    </if>
+    <if test="record.userId != null">
+      and user_id = #{record.userId,jdbcType=BIGINT}
+    </if>
+    <if test="record.loginName != null">
+      and login_name = #{record.loginName,jdbcType=VARCHAR}
+    </if>
+    <if test="record.headSculptureAddress != null">
+      and head_sculpture_address = #{record.headSculptureAddress,jdbcType=VARCHAR}
+    </if>
+    <if test="record.upvoteUserId != null">
+      and upvote_user_id = #{record.upvoteUserId,jdbcType=BIGINT}
+    </if>
+    <if test="record.upvoteLoginName != null">
+      and upvote_login_name = #{record.upvoteLoginName,jdbcType=VARCHAR}
+    </if>
+    <if test="record.upvoteHeadSculptureAddress != null">
+      and upvote_head_sculpture_address = #{record.upvoteHeadSculptureAddress,jdbcType=VARCHAR}
+    </if>
+    <if test="record.createTime != null">
+      and create_time = #{record.createTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="record.isDel != null">
+      and is_del = #{record.isDel,jdbcType=TINYINT}
+    </if>
+  </sql>
+
+</mapper>
